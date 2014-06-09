@@ -67,3 +67,4 @@ class Summarizer():
         """
         Summarize the documents into one summary
         """
+        pass
