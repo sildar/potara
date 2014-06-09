@@ -21,6 +21,7 @@ _POSMODEL = _currentdir + '/data/stanford-en'
 _POSJAR = _currentdir + '/data/stanford-postagger.jar'
 _STEMMER = None
 
+
 def sentTokenize(text):
     """
     Basic sentence tokenizer using nltk punkt
@@ -29,6 +30,7 @@ def sentTokenize(text):
                                    _currentdir +
                                    '/data/english.pickle')
     return sentTokenizer.tokenize(text)
+
 
 def postag(sentence):
     """
@@ -52,6 +54,7 @@ def postag(sentence):
 
     return tagsentencepunct
 
+
 def stem(word):
     """
     Stems a word
@@ -63,6 +66,7 @@ def stem(word):
 
     return _STEMMER.stem(word)
 
+
 def normalize(text):
     """
     Removes newlines and multiple whitespace charaters
@@ -72,6 +76,7 @@ def normalize(text):
     text = re.sub('\s+', ' ', text)
 
     return text
+
 
 class Document():
     """
@@ -106,12 +111,11 @@ class Document():
                        for sentence in self.sentences]
         self.taggedTokens = [postag(toksentence)
                              for toksentence in self.tokens]
-        self.filteredTokens = [ [(tok, pos)
-                                 for tok, pos in sentence
-                                 if tok.lower() not in stopwords
-                                 and pos != 'PUNCT' ]
-                                for sentence in self.taggedTokens]
+        self.filteredTokens = [[(tok, pos)
+                                for tok, pos in sentence
+                                if tok.lower() not in stopwords
+                                and pos != 'PUNCT']
+                               for sentence in self.taggedTokens]
         self.stemTokens = [[(stem(tok), pos)
                             for tok, pos in sentence]
                            for sentence in self.filteredTokens]
-
