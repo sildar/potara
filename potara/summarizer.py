@@ -8,6 +8,7 @@ Exposes the summarizer and its capabilities.
 import logging
 from similaritymeasures import cosine, w2v
 from gensim.models import word2vec
+from collections import Counter
 
 logger = logging.getLogger(__name__)
 
@@ -38,16 +39,14 @@ class Summarizer():
         self.similaritymeasure = similaritymeasure
 
         self.documents = None
-        self.bigrams = None
+        self.bigramstats = None
 
     def setDocuments(self, doclist):
         """
         Set a list of document in the summarizer
         """
-        if self.documents is None:
-            self.documents = []
         for doc in doclist:
-            self.documents.append(doc)
+            self.addDocument(doc)
 
     def addDocument(self, doc):
         """
@@ -56,12 +55,25 @@ class Summarizer():
         if self.documents is None:
             self.documents = []
         self.documents.append(doc)
+        self.updateBigrams(doc)
 
     def clearDocuments(self):
         """
         Remove all documents in the summarizer
         """
         self.documents = None
+        self.bigramstats = None
+
+    def updateBigrams(self, doc):
+        """
+        Update the bigram statistics for the summarizer
+        """
+        if self.bigramstats is None:
+            self.bigramstats = Counter()
+        for sentence in doc.bigrams:
+            for bigram in sentence:
+                self.bigramstats[bigram] += 1
+    
 
     def summarize(self, wordlimit=100):
         """
