@@ -1,6 +1,14 @@
 language: python
 python:
   - "2.7"
+
+# use it to install system wide python packages such as scipy
+virtualenv:
+  system_site_packages: true
+
+before_install:
+ - sudo apt-get install -qq python-numpy python-scipy
+
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install: 
   - pip install -r requirements.txt
