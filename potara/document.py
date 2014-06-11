@@ -11,7 +11,6 @@ import re
 import string
 import logging
 import os.path
-import pickle
 
 logger = logging.getLogger(__name__)
 # resources for postagger
