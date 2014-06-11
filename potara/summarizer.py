@@ -70,9 +70,15 @@ class Summarizer():
         """
         if self.bigramstats is None:
             self.bigramstats = Counter()
+
+        # check that we consider bigrams only
+        # once per document (document frequency)
+        seen = set()
         for sentence in doc.bigrams:
             for bigram in sentence:
-                self.bigramstats[bigram] += 1
+                if bigram not in seen:
+                    self.bigramstats[bigram] += 1
+                    seen.add(bigram)
 
     def summarize(self, wordlimit=100):
         """
