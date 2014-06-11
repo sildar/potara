@@ -73,7 +73,6 @@ class Summarizer():
         for sentence in doc.bigrams:
             for bigram in sentence:
                 self.bigramstats[bigram] += 1
-    
 
     def summarize(self, wordlimit=100):
         """
