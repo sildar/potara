@@ -17,7 +17,7 @@ install:
 
 # test for pep8
 before_script:
-  - "pep8 potara/*.py"
+  - "pep8 potara/summarizer.py potara/document.py potara/similaritymeasures.py"
 
 # command to run tests, e.g. python setup.py test
 script:
