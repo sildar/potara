@@ -20,4 +20,9 @@ before_script:
   - "pep8 potara/*.py"
 
 # command to run tests, e.g. python setup.py test
-script:  python setup.py test
+script:
+  - "python setup.py test"
+  - "coverage run --source=potara setup.py test"
+
+after_success:
+  coveralls
