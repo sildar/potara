@@ -3,7 +3,6 @@
 
 # go to the root for access to the module
 import sys
-import os
 sys.path.append('..')
 
 import unittest
