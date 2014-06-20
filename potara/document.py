@@ -76,9 +76,11 @@ def normalize(text):
 
     return text
 
+
 def isGoodToken(token, stopwords=nltk.corpus.stopwords.words('english')):
     tok, pos = token
     return tok.lower() not in stopwords and pos != 'PUNCT'
+
 
 class Document():
     """
@@ -117,7 +119,7 @@ class Document():
                              for toksentence in self.tokens]
         self.filteredTokens = [[(tok, pos)
                                 for tok, pos in sentence
-                                if isGoodToken((tok,pos), stopwords)]
+                                if isGoodToken((tok, pos), stopwords)]
                                for sentence in self.taggedTokens]
         self.stemTokens = [[(stem(tok), pos)
                             for tok, pos in sentence]
