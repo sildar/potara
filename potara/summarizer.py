@@ -9,6 +9,7 @@ import logging
 from similaritymeasures import cosine, w2v
 from gensim.models import word2vec
 from collections import Counter
+import takahe
 
 logger = logging.getLogger(__name__)
 
@@ -60,6 +61,33 @@ def _mergeClusters(matrix, threshold):
         bestscore, (rnum, cnum) = _findBestMatch(matrix)
         finished = bestscore < threshold
     return matrix[0][1:]
+
+
+def _fuseCluster(cluster):
+    """
+    Creates alternatives to sentences in a cluster by fusing them.
+    """
+    # fuse only if we have 2 or more sentences
+    if len(set(cluster)) < 2:
+        return cluster
+
+    fuser = takahe.word_graph(cluster,
+                              nb_words=6,
+                              lang="en",
+                              punct_tag="PUNCT")
+    # get fusions
+    fusions = fuser.get_compression(50)
+    # rerank and keep top 10
+    reranker = takahe.keyphrase_reranker(cluster, fusions, lang="en")
+    rerankedfusions = reranker.rerank_nbest_compressions()[0:10]
+
+    # recompose sentences
+    finalfusions = []
+    for _, fusedsentence in rerankedfusions:
+        finalfusions.append(" ".join([word + '/' + pos
+                                      for word, pos in fusedsentence]))
+
+    return list(set(finalfusions) | set(cluster))
 
 
 class Summarizer():
@@ -129,7 +157,7 @@ class Summarizer():
                     self.bigramstats[bigram] += 1
                     seen.add(bigram)
 
-    def _clusterSentences(self, sim):
+    def _clusterSentences(self):
         """
         Clusters the documents' sentences into related
         clusters given a similarity matrix sim
@@ -137,16 +165,19 @@ class Summarizer():
         # get stemmed sentences from all documents
         sentences = [sentence for doc in self.documents
                      for sentence in doc.stemTokens]
-        # get full sentences for clean clusters
+        # get tagged sentences for clean clusters
         fullsentences = [sentence for doc in self.documents
-                         for sentence in doc.sentences]
+                         for sentence in doc.taggedTokens]
+        fullsentences = [" ".join(['/'.join(token)
+                                   for token in sentence])
+                         for sentence in fullsentences]
         # stemmed sentences to string
         strsentences = [" ".join(['/'.join(token)
                         for token in sentence])
                         for sentence in sentences]
 
         # computes triangular similarity matrix
-        matrix = [[sim(s1, s2)
+        matrix = [[self.similaritymeasure(s1, s2)
                    for i1, s1 in enumerate(strsentences)
                    if i1 <= i2]
                   for i2, s2 in enumerate(strsentences)]
@@ -157,18 +188,26 @@ class Summarizer():
         matrix.insert(0, [None] + [[sentence] for sentence in fullsentences])
 
         # gets the sentence clusters
-        self.clusters = _mergeClusters(matrix, 0.5)
+        self.clusters = _mergeClusters(matrix, 0.3)
+
+        # filters clusters
+        updatedclusters = []
+        for cluster in self.clusters:
+            updatedcluster = []
+            for sentence in cluster:
+                if '"' in sentence and "said" in sentence:
+                    continue
+                updatedcluster.append(sentence)
+            if len(updatedcluster) > 0:
+                updatedclusters.append(updatedcluster)
+        self.clusters = updatedclusters
 
     def summarize(self, wordlimit=100):
         """
         Summarize the documents into one summary
         """
         logger.info("Clustering sentences")
-        self._clusterSentences(self.similaritymeasure)
-
-
-import document
-s = Summarizer()
-s.addDocument(document.Document("../tests/testdata/smalldoc.txt"))
-s.addDocument(document.Document("../tests/testdata/smalldocb.txt"))
-s.summarize()
+        self._clusterSentences()
+        self.candidates = [_fuseCluster(cluster) for cluster in self.clusters]
+        # print([len(cands) for cands in self.candidates])
+        # print([cands for cands in self.candidates if len(cands) > 3])
