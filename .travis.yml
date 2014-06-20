@@ -22,7 +22,7 @@ before_script:
 # command to run tests, e.g. python setup.py test
 script:
   - "python setup.py test"
-  - "coverage run --source='potara setup.py test' --omit=potara/takahe.py"
+  - "coverage run --omit=potara/takahe.py --source=potara setup.py test"
 
 after_success:
   coveralls
