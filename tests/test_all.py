@@ -3,13 +3,47 @@
 
 # go to the root for access to the module
 import sys
+import os
 sys.path.append('..')
 
 import unittest
 from potara import document
 from potara import similaritymeasures as sm
+from potara import summarizer
 import os.path
 import gensim
+
+
+class SummarizerTest(unittest.TestCase):
+
+
+    def test_init(self):
+        s = summarizer.Summarizer()
+        testdir = os.path.dirname(os.path.realpath(__file__))
+        doc = document.Document(os.path.join(testdir, 'testdata/smalldoc.txt'))
+        s.addDocument(doc)
+        self.assertEqual(len(s.documents), 1)
+
+    def test_doclogic(self):
+        s = summarizer.Summarizer()
+        testdir = os.path.dirname(os.path.realpath(__file__))
+        doc = document.Document(os.path.join(testdir, 'testdata/smalldoc.txt'))
+        s.addDocument(doc)
+        s.addDocument(doc)
+        self.assertEqual(len(s.documents), 2)
+        s.clearDocuments()
+        self.assertEqual(s.documents, None)
+        s.addDocument(doc)
+        self.assertEqual(len(s.documents), 1)
+
+    def test_clustering(self):
+        s = summarizer.Summarizer()
+        testdir = os.path.dirname(os.path.realpath(__file__))
+        doc = document.Document(os.path.join(testdir, 'testdata/smalldoc.txt'))
+        s.addDocument(doc)
+        s.addDocument(doc)
+        s._clusterSentences()
+        self.assertEqual(len(s.clusters), 2)
 
 
 class DocumentTest(unittest.TestCase):
