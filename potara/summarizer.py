@@ -10,6 +10,8 @@ from similaritymeasures import cosine, w2v
 from gensim.models import word2vec
 from collections import Counter
 import takahe
+import multiprocessing
+import time
 
 logger = logging.getLogger(__name__)
 
@@ -62,15 +64,10 @@ def _mergeClusters(matrix, threshold):
         finished = bestscore < threshold
     return matrix[0][1:]
 
-
-def _fuseCluster(cluster):
+def _dofuse(cluster):
     """
-    Creates alternatives to sentences in a cluster by fusing them.
+    Extracts the call to takahe to interrupt it if it's taking too long.
     """
-    # fuse only if we have 2 or more sentences
-    if len(set(cluster)) < 2:
-        return cluster
-
     fuser = takahe.word_graph(cluster,
                               nb_words=6,
                               lang="en",
@@ -80,7 +77,24 @@ def _fuseCluster(cluster):
     # rerank and keep top 10
     reranker = takahe.keyphrase_reranker(cluster, fusions, lang="en")
     rerankedfusions = reranker.rerank_nbest_compressions()[0:10]
+    return rerankedfusions
 
+def _fuseCluster(cluster):
+    """
+    Creates alternatives to sentences in a cluster by fusing them.
+    """
+    # fuse only if we have 2 or more sentences
+    if len(set(cluster)) < 2:
+        return cluster
+
+    try:
+        process = multiprocessing.Pool(processes=1)
+        res = process.apply_async(_dofuse, (cluster,))
+        rerankedfusions = res.get(timeout=3)
+        process.terminate()
+    except:
+        # may fail if there is no verb in the cluster or illformed sentences
+        rerankedfusions = []
     # recompose sentences
     finalfusions = []
     for _, fusedsentence in rerankedfusions:

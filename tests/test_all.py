@@ -3,13 +3,14 @@
 
 # go to the root for access to the module
 import sys
-sys.path.append('..')
+import os.path
+sys.path.insert(0, os.path.abspath(
+    os.path.join(os.path.dirname(__file__), '../') ))
 
 import unittest
 from potara import document
 from potara import similaritymeasures as sm
 from potara import summarizer
-import os.path
 import gensim
 
 
@@ -43,6 +44,15 @@ class SummarizerTest(unittest.TestCase):
         s.addDocument(doc)
         s._clusterSentences()
         self.assertEqual(len(s.clusters), 2)
+
+    def test_fusion(self):
+        s1 = "This/DT fake/JJ sentence/NN will/MD create/VB fusions/NNS ./PUNCT"
+        s2 = "This/DT awesome/JJ sentence/NN may/MD create/VB fusions/NNS ./PUNCT"
+
+        fusions = summarizer._fuseCluster([s1, s2])
+        self.assertTrue(len(fusions) <= 10)
+        self.assertTrue("this/DT awesome/JJ sentence/NN "+
+                        "will/MD create/VB fusions/NNS ./PUNCT" in fusions)
 
 
 class DocumentTest(unittest.TestCase):
