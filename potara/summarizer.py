@@ -64,6 +64,7 @@ def _mergeClusters(matrix, threshold):
         finished = bestscore < threshold
     return matrix[0][1:]
 
+
 def _dofuse(cluster):
     """
     Extracts the call to takahe to interrupt it if it's taking too long.
@@ -78,6 +79,7 @@ def _dofuse(cluster):
     reranker = takahe.keyphrase_reranker(cluster, fusions, lang="en")
     rerankedfusions = reranker.rerank_nbest_compressions()[0:10]
     return rerankedfusions
+
 
 def _fuseCluster(cluster):
     """
