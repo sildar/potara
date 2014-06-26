@@ -84,12 +84,6 @@ def w2v(s1, s2, wordmodel):
                         sublist.append((i, 0))
                 else:
                     sublist.append((i, 0))
-            # no POS tags
-            # elif t1 in wordmodel.vocab and t2 in wordmodel.vocab:
-            #         sublist.append((i, wordmodel.similarity(t1, t2)))
-            #         hasitem = True
-            # else:
-            #     sublist.append((i, 0))
 
         if hasitem:
             maxitem, subscore = max(sublist, key=itemgetter(1))
