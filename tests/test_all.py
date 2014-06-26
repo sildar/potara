@@ -135,13 +135,30 @@ class SimilarityTest(unittest.TestCase):
         modelfile = testdir + '/../potara/data/enwiki9stempos.model'
         try:
             model = gensim.models.word2vec.Word2Vec.load(modelfile)
+            esim = 0.88749
         except:
-            return
+            # mock a similarity model
+            class FakeModel():
+                vocab = []
+                sim = {}
+
+                def __init__(self):
+                    pass
+
+                def similarity(self, w1, w2):
+                    if w1 + '_' + w2 in self.sim:
+                        return self.sim[w1 + '_' + w2]
+                    else:
+                        return self.sim[w2 + '_' + w1]
+
+            model = FakeModel()
+            model.vocab = ['right/JJ', 'wrong/JJ']
+            model.sim = {'right/JJ_wrong/JJ': 0.5}
+            esim = 0.9166
 
         s1 = "This/T beautiful/JJ sentence/NN is/V not/N right/JJ ./PUNCT"
         s2 = "This/T beautiful/JJ sentence/NN is/V wrong/JJ ./PUNCT"
 
-        esim = 0.88749
         psim = sm.w2v(s1, s2, model)
         self.assertAlmostEqual(esim, psim, places=3)
 
