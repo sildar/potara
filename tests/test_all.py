@@ -53,11 +53,8 @@ class SummarizerTest(unittest.TestCase):
         fusions = summarizer._fuseCluster([s1, s2])
         self.assertTrue(len(fusions) <= 10)
         # if fusion went OK
-        if len(fusions) > 2:
-            self.assertTrue(("this/DT awesome/JJ sentence/NN "
-                             "will/MD create/VB fusions/NNS ./PUNCT") in fusions)
-        else:
-            print("No fusion happened")
+        self.assertTrue(("this/DT awesome/JJ sentence/NN "
+                         "will/MD create/VB fusions/NNS ./PUNCT") in fusions)
 
 
 class DocumentTest(unittest.TestCase):
