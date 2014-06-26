@@ -32,7 +32,7 @@ class SummarizerTest(unittest.TestCase):
         self.assertEqual(len(s.documents), 2)
         s.clearDocuments()
         self.assertEqual(s.documents, None)
-        s.addDocument(doc)
+        s.setDocuments([doc])
         self.assertEqual(len(s.documents), 1)
 
     def test_clustering(self):
