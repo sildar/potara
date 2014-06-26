@@ -5,7 +5,7 @@
 import sys
 import os.path
 sys.path.insert(0, os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '../') ))
+    os.path.join(os.path.dirname(__file__), '../')))
 
 import unittest
 from potara import document
@@ -15,7 +15,6 @@ import gensim
 
 
 class SummarizerTest(unittest.TestCase):
-
 
     def test_init(self):
         s = summarizer.Summarizer()
@@ -46,13 +45,15 @@ class SummarizerTest(unittest.TestCase):
         self.assertEqual(len(s.clusters), 2)
 
     def test_fusion(self):
-        s1 = "This/DT fake/JJ sentence/NN will/MD create/VB fusions/NNS ./PUNCT"
-        s2 = "This/DT awesome/JJ sentence/NN may/MD create/VB fusions/NNS ./PUNCT"
+        s1 = "This/DT fake/JJ sentence/NN will/MD " + \
+             "create/VB fusions/NNS ./PUNCT"
+        s2 = "This/DT awesome/JJ sentence/NN may/MD " + \
+             "create/VB fusions/NNS ./PUNCT"
 
         fusions = summarizer._fuseCluster([s1, s2])
         self.assertTrue(len(fusions) <= 10)
-        self.assertTrue("this/DT awesome/JJ sentence/NN "+
-                        "will/MD create/VB fusions/NNS ./PUNCT" in fusions)
+        self.assertTrue(("this/DT awesome/JJ sentence/NN "
+                        "will/MD create/VB fusions/NNS ./PUNCT") in fusions)
 
 
 class DocumentTest(unittest.TestCase):
@@ -64,8 +65,8 @@ class DocumentTest(unittest.TestCase):
         of spaces\t\n """
         et1 = "This is a .strange sentence that has lots of spaces"
         pt1 = document.normalize(t1)
-        
-        self.assertEqual(pt1,et1)
+
+        self.assertEqual(pt1, et1)
 
     def test_stem(self):
         words = ["these", "sentences", "are", "awesome"]
@@ -77,8 +78,8 @@ class DocumentTest(unittest.TestCase):
     def test_sentTokenize(self):
 
         t1 = "This test is composed of several sentences. Some of " + \
-        "them contain abbreviations like POS. POS means Part Of " + \
-        "Speech by the way."
+             "them contain abbreviations like POS. POS means Part Of " + \
+             "Speech by the way."
 
         esent1 = ["This test is composed of several sentences.",
                   "Some of them contain abbreviations like POS.",
@@ -98,13 +99,14 @@ class DocumentTest(unittest.TestCase):
 
     def test_docinit(self):
         testdir = os.path.dirname(os.path.realpath(__file__))
-        docfile1 = testdir + "/testdata/smalldoc.txt" 
+        docfile1 = testdir + "/testdata/smalldoc.txt"
         doc1 = document.Document(docfile1)
 
         edoc1stem = [[(u'clean', u'JJ'), (u'document', u'NN')],
                      [(u'short', u'JJ'), (u'illform', u'JJ')]]
         pdoc1stem = doc1.stemTokens
         self.assertEqual(edoc1stem, pdoc1stem)
+
 
 class SimilarityTest(unittest.TestCase):
 
@@ -125,7 +127,8 @@ class SimilarityTest(unittest.TestCase):
         pcos = sm.cosine(s1, s2)
         self.assertEqual(ecos, pcos)
 
-    # w2v needs a model. Without it, I'll just pass the tests (useful for travis)
+    # w2v needs a model.
+    # Without it, I'll just pass the tests (useful for travis)
     def test_w2v(self):
         testdir = os.path.dirname(os.path.realpath(__file__))
         modelfile = testdir + '/../potara/data/enwiki9stempos.model'
@@ -145,7 +148,7 @@ class SimilarityTest(unittest.TestCase):
         psim2 = sm.w2v(s2, s1, model)
         self.assertEqual(psim, psim2)
 
-    def test_w2v_notinvocab(self):        
+    def test_w2v_notinvocab(self):
         testdir = os.path.dirname(os.path.realpath(__file__))
         modelfile = testdir + '/../potara/data/enwiki9stempos.model'
         try:
@@ -196,8 +199,8 @@ class SimilarityTest(unittest.TestCase):
         esim = 4.0/5
         psim = sm.w2v(s1, s2, model)
         self.assertEqual(esim, psim)
-        
-        
+
+
 if __name__ == '__main__':
     unittest.main()
         
