@@ -100,8 +100,6 @@ class Document():
         self.docfile = docfile
         self.preprocess(sentTokenizer, wordTokenizer,
                         stopwords, postagger)
-        self.bigrams = [extractBigrams(sentence)
-                        for sentence in self.stemTokens]
 
     def preprocess(self, sentTokenizer,
                    wordTokenizer, stopwords, postagger):
@@ -125,12 +123,3 @@ class Document():
                             for tok, pos in sentence]
                            for sentence in self.filteredTokens]
 
-
-def extractBigrams(sentence):
-    """
-    Extracts the bigrams from a sentence
-    """
-    bigrams = []
-    for token1, token2 in zip(sentence, sentence[1:]):
-        bigrams.append((token1, token2))
-    return bigrams
