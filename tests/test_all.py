@@ -56,6 +56,13 @@ class SummarizerTest(unittest.TestCase):
         self.assertTrue(("this/DT awesome/JJ sentence/NN "
                          "will/MD create/VB fusions/NNS ./PUNCT") in fusions)
 
+    def test_fakefusion(self):
+        s1 = "This/DT fake/JJ sentence/NN will/MD " + \
+             "create/VB fusions/NNS ./PUNCT"
+
+        fusions = summarizer._fuseCluster([s1])
+        self.assertTrue(len(fusions),1)
+
 
 class DocumentTest(unittest.TestCase):
 
