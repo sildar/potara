@@ -122,4 +122,3 @@ class Document():
         self.stemTokens = [[(stem(tok), pos)
                             for tok, pos in sentence]
                            for sentence in self.filteredTokens]
-

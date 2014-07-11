@@ -110,6 +110,7 @@ def _fuseCluster(cluster):
 
     return list(set(finalfusions) | set(cluster))
 
+
 def removePOS(sentence):
     """
     Removes the part of speech from a string sentence.
@@ -118,6 +119,7 @@ def removePOS(sentence):
     for word in sentence.split():
         cleansentence.append(word.split('/')[0])
     return ' '.join(cleansentence)
+
 
 def extractBigrams(sentence):
     """
@@ -135,6 +137,7 @@ def extractBigrams(sentence):
                and tok2 not in string.punctuation]
     return bigrams
 
+
 def wellformatize(s):
     ws = re.sub(" ('[a-z]) ", "\g<1> ", s)
     ws = re.sub(" ([\.;,-]) ", "\g<1> ", ws)
@@ -147,6 +150,7 @@ def wellformatize(s):
     # repair do n't to don't
     ws = re.sub("(\w+) n't", "\g<1>n't", ws)
     return ws.strip()
+
 
 class Summarizer():
     """
@@ -259,9 +263,11 @@ class Summarizer():
             if len(updatedcluster) > 0:
                 updatedclusters.append(updatedcluster)
         self.clusters = updatedclusters
-        
+
     def _selectSentences(self, wordlimit):
-        
+        """
+        Optimally selects the sentences based on their bigrams
+        """
         fullsentences = [removePOS(sentence)
                          for cluster in self.candidates
                          for sentence in cluster]
@@ -270,10 +276,10 @@ class Summarizer():
                          and "``" not in sentence
                          and "said" not in sentence
                          and "told" not in sentence]
-        
+
         # remember the correspondance between a sentence and its cluster
         clusternums = {}
-        sentencenums = {s:i for i, s in enumerate(fullsentences)}
+        sentencenums = {s: i for i, s in enumerate(fullsentences)}
         for i, cluster in enumerate(self.candidates):
             clusternums[i] = []
             for sentence in cluster:
@@ -296,7 +302,8 @@ class Summarizer():
         fullsentences = [wellformatize(sentence) for sentence in fullsentences]
 
         # filter out rare bigrams
-        weightedbigrams = {bigram:(count if count >= self.minbigramcount else 0)
+        weightedbigrams = {bigram: (count if count >= self.minbigramcount
+                                    else 0)
                            for bigram, count in self.bigramstats.items()}
 
         problem = pulp.LpProblem("Sentence selection", pulp.LpMaximize)
@@ -333,14 +340,14 @@ class Summarizer():
             problem += sum([sentences[j]
                             for j, bsentence in enumerate(bigramssentences)
                             if bigram in bsentence]) >= concepts[i]
-            
+
         # select only one sentence per cluster
         for clusternum, clustersentences in clusternums.items():
             problem += sum([sentences[j] for j in clustersentences]) <= 1
 
         # solve the problem
         problem.solve(GLPK())
-        print("Solved with value ",pulp.value(problem.objective))
+
         summary = []
         # get the sentences back
         for j in range(numsentences):
@@ -348,7 +355,6 @@ class Summarizer():
                 summary.append(fullsentences[j])
 
         return summary
-        
 
     def summarize(self, wordlimit=100):
         """
@@ -361,6 +367,7 @@ class Summarizer():
 
 # s = Summarizer()
 # print("Adding docs")
-# s.setDocuments([document.Document('../tests/testdata/cameron'+str(i)+'.txt') for i in range(1,11)])
+# s.setDocuments([document.Document('../tests/testdata/cameron'+str(i)+'.txt')
+#        for i in range(1,11)])
 # print("summarizing")
 # s.summarize()
