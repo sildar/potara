@@ -63,6 +63,17 @@ class SummarizerTest(unittest.TestCase):
         fusions = summarizer._fuseCluster([s1])
         self.assertTrue(len(fusions),1)
 
+    def test_selectSentences(self):
+        s = summarizer.Summarizer()
+        testdir = os.path.dirname(os.path.realpath(__file__))
+        doc1 = document.Document(os.path.join(testdir, 'testdata/smalldoc.txt'))
+        doc2 = document.Document(os.path.join(testdir, 'testdata/smalldocb.txt'))
+        s.addDocument(doc1)
+        s.addDocument(doc2)
+        maxwords = 50
+        s.summarize(maxwords)
+        print(s.summary)
+
 
 class DocumentTest(unittest.TestCase):
 

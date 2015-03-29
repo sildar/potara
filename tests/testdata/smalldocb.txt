@@ -1,1 +1,1 @@
-This is a clean document. It is short, but not illformed
+This is a cleaner document. It is short, and not illformed.
