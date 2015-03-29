@@ -109,7 +109,7 @@ def _fuseCluster(cluster):
     for _, fusedsentence in rerankedfusions:
         finalfusions.append(" ".join([word + '/' + pos
                                       for word, pos in fusedsentence]))
-
+    # using sets to remove duplicates
     return list(set(finalfusions) | set(cluster))
 
 
