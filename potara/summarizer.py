@@ -361,7 +361,8 @@ class Summarizer():
         logger.info("Clustering sentences")
         self.clusterSentences()
         if fusion:
-            self.candidates = [_fuseCluster(cluster) for cluster in self.clusters]
+            self.candidates = [_fuseCluster(cluster)
+                               for cluster in self.clusters]
         else:
             self.candidates = self.clusters
         self.summary = self._selectSentences(wordlimit)

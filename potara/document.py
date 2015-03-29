@@ -97,17 +97,16 @@ class Document():
         with codecs.open(docfile, 'r', 'utf-8') as doc:
             self.content = doc.read()
         self.docfile = docfile
-        
+
         self.content = normalize(self.content)
 
         if not skipPreprocess:
             self.preprocess()
-        
-        
+
     def preprocess(self, sentTokenizer=sentTokenize,
-                 wordTokenizer=nltk.tokenize.word_tokenize,
-                 stopwords=nltk.corpus.stopwords.words('english'),
-                 postagger=postag):
+                   wordTokenizer=nltk.tokenize.word_tokenize,
+                   stopwords=nltk.corpus.stopwords.words('english'),
+                   postagger=postag):
         """
         Preprocess the content of a document.
         """
