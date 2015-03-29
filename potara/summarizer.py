@@ -94,6 +94,8 @@ def _fuseCluster(cluster):
     if len(set(cluster)) < 2:
         return cluster
 
+    # small hack. takahe module may not finish.
+    # We give it 3 seconds to compute the result
     try:
         process = multiprocessing.Pool(processes=1)
         res = process.apply_async(_dofuse, (cluster,))
