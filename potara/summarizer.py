@@ -351,13 +351,16 @@ class Summarizer():
 
         return summary
 
-    def summarize(self, wordlimit=100):
+    def summarize(self, wordlimit=100, fusion=True):
         """
         Summarize the documents into one summary
         """
         logger.info("Clustering sentences")
         self._clusterSentences()
-        self.candidates = [_fuseCluster(cluster) for cluster in self.clusters]
+        if fusion:
+            self.candidates = [_fuseCluster(cluster) for cluster in self.clusters]
+        else:
+            self.candidates = self.clusters
         self.summary = self._selectSentences(wordlimit)
 
 # s = Summarizer()
