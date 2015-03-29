@@ -257,8 +257,6 @@ class Summarizer():
         for cluster in self.clusters:
             updatedcluster = []
             for sentence in cluster:
-                if '"' in sentence and "said" in sentence:
-                    continue
                 updatedcluster.append(sentence)
             if len(updatedcluster) > 0:
                 updatedclusters.append(updatedcluster)
@@ -271,11 +269,6 @@ class Summarizer():
         fullsentences = [removePOS(sentence)
                          for cluster in self.candidates
                          for sentence in cluster]
-        fullsentences = [sentence for sentence in fullsentences
-                         if "''" not in sentence
-                         and "``" not in sentence
-                         and "said" not in sentence
-                         and "told" not in sentence]
 
         # remember the correspondance between a sentence and its cluster
         clusternums = {}
