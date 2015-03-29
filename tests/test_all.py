@@ -41,7 +41,7 @@ class SummarizerTest(unittest.TestCase):
         doc = document.Document(os.path.join(testdir, 'testdata/smalldoc.txt'))
         s.addDocument(doc)
         s.addDocument(doc)
-        s._clusterSentences()
+        s.clusterSentences()
         self.assertEqual(len(s.clusters), 2)
 
     def test_fusion(self):

@@ -162,7 +162,8 @@ class Summarizer():
     """
 
     def __init__(self, minbigramcount=4,
-                 similaritymeasure=cosine, wordmodelfile=None):
+                 similaritymeasure=cosine, minsimilarity=0.3,
+                 wordmodelfile=None):
         """
         Creates the summarizer.
         """
@@ -178,6 +179,7 @@ class Summarizer():
             self.wordmodel = word2vec.Word2Vec.load(wordmodelfile)
 
         self.similaritymeasure = similaritymeasure
+        self.minsimilarity = minsimilarity
 
         self.documents = None
         self.bigramstats = None
@@ -221,7 +223,7 @@ class Summarizer():
                     self.bigramstats[bigram] += 1
                     seen.add(bigram)
 
-    def _clusterSentences(self):
+    def clusterSentences(self):
         """
         Clusters the documents' sentences into related
         clusters given a similarity matrix sim
@@ -253,7 +255,7 @@ class Summarizer():
         matrix.insert(0, [None] + [[sentence] for sentence in fullsentences])
 
         # gets the sentence clusters
-        self.clusters = _mergeClusters(matrix, 0.3)
+        self.clusters = _mergeClusters(matrix, self.minsimilarity)
 
         # filters clusters
         updatedclusters = []
@@ -357,7 +359,7 @@ class Summarizer():
         Summarize the documents into one summary
         """
         logger.info("Clustering sentences")
-        self._clusterSentences()
+        self.clusterSentences()
         if fusion:
             self.candidates = [_fuseCluster(cluster) for cluster in self.clusters]
         else:
