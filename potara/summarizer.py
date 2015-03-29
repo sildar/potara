@@ -232,10 +232,11 @@ class Summarizer():
         # get tagged sentences for clean clusters
         fullsentences = [sentence for doc in self.documents
                          for sentence in doc.taggedTokens]
+        # pair of (word, pos) to string
         fullsentences = [" ".join(['/'.join(token)
                                    for token in sentence])
                          for sentence in fullsentences]
-        # stemmed sentences to string
+        # pair of (stem, pos) to string
         strsentences = [" ".join(['/'.join(token)
                         for token in sentence])
                         for sentence in sentences]

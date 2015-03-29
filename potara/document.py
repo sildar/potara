@@ -84,32 +84,34 @@ def isGoodToken(token, stopwords=nltk.corpus.stopwords.words('english')):
 
 class Document():
     """
-    A document that will be preprocessed.
+    A document. The document should at least fill the fields
+    tokens, taggedTokens, stemTokens to be used with the summarizer.
     """
 
-    def __init__(self, docfile,
-                 sentTokenizer=sentTokenize,
-                 wordTokenizer=nltk.tokenize.word_tokenize,
-                 stopwords=nltk.corpus.stopwords.words('english'),
-                 postagger=postag):
+    def __init__(self, docfile, skipPreprocess=False):
         """
         Initialize a document and preprocesses it.
         """
         with codecs.open(docfile, 'r', 'utf-8') as doc:
             self.content = doc.read()
         self.docfile = docfile
-        self.preprocess(sentTokenizer, wordTokenizer,
-                        stopwords, postagger)
+        
+        self.content = normalize(self.content)
 
-    def preprocess(self, sentTokenizer,
-                   wordTokenizer, stopwords, postagger):
+        if not skipPreprocess:
+            self.preprocess()
+        
+        
+    def preprocess(self, sentTokenizer=sentTokenize,
+                 wordTokenizer=nltk.tokenize.word_tokenize,
+                 stopwords=nltk.corpus.stopwords.words('english'),
+                 postagger=postag):
         """
         Preprocess the content of a document.
         """
         logger.info("Preprocessing document %s",
                     os.path.basename(self.docfile))
 
-        self.content = normalize(self.content)
         self.sentences = sentTokenizer(self.content)
         self.tokens = [wordTokenizer(sentence)
                        for sentence in self.sentences]
