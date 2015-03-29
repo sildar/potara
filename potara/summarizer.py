@@ -133,10 +133,10 @@ def extractBigrams(sentence):
 
     # filter bigrams
     bigrams = [(tok1, tok2) for tok1, tok2 in bigrams
-               if not (tok1 in nltk.corpus.stopwords.words('english')
-                       and tok2 in nltk.corpus.stopwords.words('english'))
-               and tok1 not in string.punctuation
-               and tok2 not in string.punctuation]
+               if not (tok1 in nltk.corpus.stopwords.words('english') and
+                       tok2 in nltk.corpus.stopwords.words('english')) and
+               tok1 not in string.punctuation and
+               tok2 not in string.punctuation]
     return bigrams
 
 
