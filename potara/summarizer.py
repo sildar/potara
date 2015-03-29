@@ -366,10 +366,3 @@ class Summarizer():
         else:
             self.candidates = self.clusters
         self.summary = self._selectSentences(wordlimit)
-
-# s = Summarizer()
-# print("Adding docs")
-# s.setDocuments([document.Document('../tests/testdata/cameron'+str(i)+'.txt')
-#        for i in range(1,11)])
-# print("summarizing")
-# s.summarize()
