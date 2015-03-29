@@ -27,6 +27,8 @@ s.setDocuments([document.Document('pathtofilenumber' + n)
        for i in range(1,11)])
 print("summarizing")
 s.summarize()
-
+print(s.summary())
 ```
 
+There's some preprocessing involved and a sentence fusion step, but I
+made it easily tunable.
