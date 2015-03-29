@@ -84,13 +84,15 @@ def isGoodToken(token, stopwords=nltk.corpus.stopwords.words('english')):
 
 class Document():
     """
-    A document. The document should at least fill the fields
-    tokens, taggedTokens, stemTokens to be used with the summarizer.
+    A document. Contains different representations of the document
+    that will be used for summarization.
     """
 
     def __init__(self, docfile, skipPreprocess=False):
         """
-        Initialize a document and preprocesses it.
+        Initialize a document and preprocesses it by default.
+        One can use its own preprocessing method but must define
+        the fields tokens, taggedTokens and stemTokens.
         """
         with codecs.open(docfile, 'r', 'utf-8') as doc:
             self.content = doc.read()
