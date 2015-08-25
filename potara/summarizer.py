@@ -319,7 +319,9 @@ class Summarizer():
                                           cat='Integer')
 
         # objective : maximize wi * ci (weighti * concepti)
-        problem += sum([self.bigramstats[bigram]*concepts[i]
+        # small hack. If the bigram has been filtered out from uniqbigrams,
+        # we give it a weight of 0.
+        problem += sum([(weightedbigrams.get(bigram) or 0) * concepts[i]
                         for i, bigram in enumerate(uniqbigrams)])
 
         # constraints
