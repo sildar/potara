@@ -16,6 +16,34 @@ or not, that will compose the resulting summary.
 It relies on state-of-the-art approaches introduced by Gillick and
 Favre for the ILP strategy, and Filippova for the sentence fusion.
 
+# Install
+
+You can install most python dependencies with pip
+
+```
+$ pip install -r requirements.txt
+```
+
+You will also need GLPK, which is used to obtain an optimal summary
+(example for Debian-based distro)
+
+```
+$ sudo apt-get install glpk
+```
+
+You may also need to install scipy and numpy with your distro package
+manager
+
+```
+$ sudo apt-get install python-numpy python-scipy
+```
+
+You can check that the install run successfully by running
+
+```
+$ python setup.py test
+```
+
 # How To
 
 Basically, you can use the following
@@ -31,4 +59,5 @@ print(s.summary())
 ```
 
 There's some preprocessing involved and a sentence fusion step, but I
-made it easily tunable.
+made it easily tunable. Preprocessing may take a while (a few minutes)
+since there is a lot going on under the hood.
