@@ -49,13 +49,16 @@ $ python setup.py test
 Basically, you can use the following
 
 ```
+from summarizer import Summarizer
+import document
+
 s = Summarizer()
 print("Adding docs")
-s.setDocuments([document.Document('pathtofilenumber' + n)
-       for i in range(1,11)])
+s.setDocuments([document.Document('data/' + str(i) + '.txt')
+       for i in range(1,10)])
 print("summarizing")
 s.summarize()
-print(s.summary())
+print(s.summary)
 ```
 
 There's some preprocessing involved and a sentence fusion step, but I
