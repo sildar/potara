@@ -31,6 +31,11 @@ You will also need GLPK, which is used to obtain an optimal summary
 $ sudo apt-get install glpk
 ```
 
+For Ubuntu-based distros you can use:
+```
+$ sudo apt-get install libglpk40
+```
+
 You may also need to install scipy and numpy with your distro package
 manager
 
