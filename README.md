@@ -31,6 +31,11 @@ You will also need GLPK, which is used to obtain an optimal summary
 $ sudo apt-get install glpk
 ```
 
+For Ubuntu-based distros you can use:
+```
+$ sudo apt-get install libglpk40
+```
+
 You may also need to install scipy and numpy with your distro package
 manager
 
@@ -49,13 +54,16 @@ $ python setup.py test
 Basically, you can use the following
 
 ```
+from summarizer import Summarizer
+import document
+
 s = Summarizer()
 print("Adding docs")
-s.setDocuments([document.Document('pathtofilenumber' + n)
-       for i in range(1,11)])
+s.setDocuments([document.Document('data/' + str(i) + '.txt')
+       for i in range(1,10)])
 print("summarizing")
 s.summarize()
-print(s.summary())
+print(s.summary)
 ```
 
 There's some preprocessing involved and a sentence fusion step, but I
