@@ -13,7 +13,7 @@ before_install:
 install: 
   - pip install -r requirements.txt
   - pip install pep8
-  - python -c "import nltk; nltk.download('stopwords')"
+  - python -c "import nltk; nltk.download('stopwords'); nltk.download('punkt')"
 
 # test for pep8
 before_script:
