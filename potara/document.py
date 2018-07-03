@@ -37,7 +37,7 @@ def postag(sentence):
     """
     global _POSTAGGER
     if _POSTAGGER is None:
-        _POSTAGGER = nltk.tag.stanford.POSTagger(
+        _POSTAGGER = nltk.tag.stanford.StanfordPOSTagger(
             _POSMODEL, _POSJAR, encoding='utf-8')
 
     tagsentence = _POSTAGGER.tag(sentence)
