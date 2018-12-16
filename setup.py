@@ -11,7 +11,7 @@ setup(
     name = "potara",
     version = "0.1.0",
     author = "Remi Bois",
-    author_email = "remi.bois@etu.univ-nantes.fr",
+    author_email = "remibois.contact@gmail.com",
     description = ("A multi-document summarizer based on ILP and sentence fusion."),
     license = "Apache",
     keywords = "summarization",
