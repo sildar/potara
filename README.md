@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/sildar/potara.svg?branch=master)](https://travis-ci.org/sildar/potara)
 [![Coverage Status](https://coveralls.io/repos/sildar/potara/badge.png?branch=master)](https://coveralls.io/r/sildar/potara?branch=master)
 [![Requirements Status](https://requires.io/github/sildar/potara/requirements.svg?branch=master)](https://requires.io/github/sildar/potara/requirements/?branch=master)
+[![image](https://img.shields.io/pypi/pyversions/potara.svg)](https://pypi.org/project/potara/)
 
 # Basics
 
