@@ -10,7 +10,8 @@ before_install:
  - sudo apt-get install -qq python-numpy python-scipy python-glpk libglpk-dev glpk-utils
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install: 
+install:
+  - pip install --upgrade pip
   - pip install -r requirements.txt
   - pip install pep8
   - python -c "import nltk; nltk.download('stopwords'); nltk.download('punkt')"
