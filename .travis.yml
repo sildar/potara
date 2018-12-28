@@ -1,6 +1,6 @@
 language: python
 python:
-  - "2.7.15"
+  - "2.7"
 
 # use it to install system wide python packages such as scipy
 virtualenv:
@@ -24,8 +24,9 @@ before_script:
 
 # command to run tests, e.g. python setup.py test
 script:
-  - "python setup.py test"
-  - "coverage run --omit=potara/takahe.py --source=potara setup.py test"
+ - "python tests/test_all.py"
+ - "python setup.py test"
+ - "coverage run --omit=potara/takahe.py --source=potara setup.py test"
 
 after_success:
   coveralls
