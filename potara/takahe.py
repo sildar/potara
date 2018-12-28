@@ -978,9 +978,10 @@ class word_graph:
         stopwords = set([])
 
         # For each line in the file
-        for line in codecs.open(path, 'r', 'utf-8'):
-            if not re.search('^#', line) and len(line.strip()) > 0:
-                stopwords.add(line.strip().lower())
+        with codecs.open(path, 'r', 'utf-8') as f:
+            for line in f:
+                if not re.search('^#', line) and len(line.strip()) > 0:
+                    stopwords.add(line.strip().lower())
 
         # Return the set of stopwords
         return stopwords
