@@ -74,10 +74,8 @@ def _dofuse(cluster):
     """
     Extracts the call to takahe to interrupt it if it's taking too long.
     """
-    fuser = word_graph(cluster,
-                              nb_words=6,
-                              lang="en",
-                              punct_tag="PUNCT")
+    fuser = word_graph(cluster, nb_words=6,
+                       lang="en", punct_tag="PUNCT")
     # get fusions
     fusions = fuser.get_compression(50)
     # rerank and keep top 10
