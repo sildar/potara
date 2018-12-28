@@ -25,12 +25,6 @@ You can install most python dependencies with pip
 $ pip install -r requirements.txt
 ```
 
-Some additional dependencies are needed to complete tests
-
-```
-$ pip install -r requirements-dev.txt
-```
-
 You will also need GLPK, which is used to obtain an optimal summary
 (example for Debian-based distro)
 
