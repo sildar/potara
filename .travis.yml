@@ -29,7 +29,6 @@ before_script:
 # command to run tests, e.g. python setup.py test
 script:
  - "python tests/test_all.py"
- -
  - "python setup.py test"
  - "coverage run --omit=potara/takahe.py --source=potara setup.py test"
 
