@@ -6,12 +6,12 @@ Exposes the summarizer and its capabilities.
 """
 
 import logging
-from similaritymeasures import cosine, w2v
+from .similaritymeasures import cosine, w2v
 from gensim.models import word2vec
 from collections import Counter
-import takahe
+from .takahe import word_graph, keyphrase_reranker
 import multiprocessing
-import document
+from .document import stem
 from pulp import GLPK
 import pulp
 import nltk
@@ -74,14 +74,14 @@ def _dofuse(cluster):
     """
     Extracts the call to takahe to interrupt it if it's taking too long.
     """
-    fuser = takahe.word_graph(cluster,
+    fuser = word_graph(cluster,
                               nb_words=6,
                               lang="en",
                               punct_tag="PUNCT")
     # get fusions
     fusions = fuser.get_compression(50)
     # rerank and keep top 10
-    reranker = takahe.keyphrase_reranker(cluster, fusions, lang="en")
+    reranker = keyphrase_reranker(cluster, fusions, lang="en")
     rerankedfusions = reranker.rerank_nbest_compressions()[0:10]
     return rerankedfusions
 
@@ -128,7 +128,7 @@ def extractBigrams(sentence):
     Extracts the bigrams from a tokenized sentence.
     Applies some filters to remove bad bigrams
     """
-    bigrams = [(document.stem(tok1.lower()),  document.stem(tok2.lower()))
+    bigrams = [(stem(tok1.lower()),  stem(tok2.lower()))
                for tok1, tok2 in zip(sentence, sentence[1:])]
 
     # filter bigrams
