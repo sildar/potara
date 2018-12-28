@@ -11,7 +11,7 @@ def read(fname):
 
 setup(
     name = "potara",
-    version = "1.0.0",
+    version = "1.0.1",
     author = "Remi Bois",
     author_email = "remibois.contact@gmail.com",
     description = ("A multi-document summarizer based on ILP and sentence fusion."),
