@@ -25,6 +25,12 @@ You can install most python dependencies with pip
 $ pip install -r requirements.txt
 ```
 
+Some additional dependencies are needed to complete tests
+
+```
+$ pip install -r requirements-dev.txt
+```
+
 You will also need GLPK, which is used to obtain an optimal summary
 (example for Debian-based distro)
 
@@ -50,7 +56,7 @@ You can check that the install run successfully by running
 $ python setup.py test
 ```
 
-If you have issues with install, you can check the .travis.yml file of the repo, which corresponds to a working build on Ubuntu 14.04.
+If you have issues with install, you can check the .travis.yml file of the repo, which corresponds to a working build.
 
 # How To
 
