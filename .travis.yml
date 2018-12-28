@@ -1,10 +1,20 @@
 language: python
+dist: trusty
+group: stable
+os: linux
 python:
   - "2.7"
   - "3.4"
   - "3.5"
   - "3.6"
-  - "3.7"
+
+addons:
+  apt:
+    sources:
+      - deadsnakes
+    packages:
+      - python3.5
+      - python3.6
 
 # use it to install system wide python packages such as scipy
 virtualenv:
@@ -12,6 +22,7 @@ virtualenv:
 
 before_install:
  - sudo apt-get install -qq python-numpy python-scipy python-glpk libglpk-dev glpk-utils
+ - sudo rm -f /etc/boto.cfg
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
