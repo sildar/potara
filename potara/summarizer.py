@@ -344,7 +344,7 @@ class Summarizer():
             problem += sum([sentences[j] for j in clustersentences]) <= 1
 
         # solve the problem
-        problem.solve(GLPK())
+        problem.solve(GLPK(msg=0))
 
         summary = []
         # get the sentences back
