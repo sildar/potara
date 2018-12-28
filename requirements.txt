@@ -1,4 +1,4 @@
-gensim==0.9.1
+gensim==3.6.0
 networkx==1.8.1
-nltk==3.3
+nltk==3.4
 pulp
