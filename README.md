@@ -19,11 +19,17 @@ Favre for the ILP strategy, and Filippova for the sentence fusion.
 
 # Install
 
-You can install most python dependencies with pip
+## The easy way
+
+You should be able to install potara and its dependencies with pip
 
 ```
-$ pip install -r requirements.txt
+pip install potara
 ```
+
+You can also clone this repo and use the requirements.txt file to install dependencies
+
+## further requirements
 
 You will also need GLPK, which is used to obtain an optimal summary
 (example for Debian-based distro)
@@ -37,14 +43,7 @@ For Ubuntu-based distros you can use:
 $ sudo apt-get install libglpk40
 ```
 
-You may also need to install scipy and numpy with your distro package
-manager
-
-```
-$ sudo apt-get install python-numpy python-scipy
-```
-
-You can check that the install run successfully by running
+You can check that the install run successfully by cloning the repo and running
 
 ```
 $ python setup.py test
@@ -61,11 +60,15 @@ from summarizer import Summarizer
 import document
 
 s = Summarizer()
-print("Adding docs")
+
+# Adding docs, preprocessing them and computing some infos for the summarizer
 s.setDocuments([document.Document('data/' + str(i) + '.txt')
-       for i in range(1,10)])
-print("summarizing")
+                for i in range(1,10)])
+       
+# Summarizing, where the actual work is done
 s.summarize()
+
+# You can then print the summary
 print(s.summary)
 ```
 
