@@ -840,7 +840,7 @@ class word_graph:
                         length >= self.nb_words and \
                         paired_parentheses == 0 and \
                         (quotation_mark_number%2) == 0 \
-                        and not sentence_container.has_key(raw_sentence):
+                        and raw_sentence not in sentence_container:
                         path = [node]
                         path.extend(shortestpath)
                         path.reverse()
@@ -853,7 +853,7 @@ class word_graph:
                 else:
             
                     # test if node has already been visited
-                    if visited.has_key(node):
+                    if node in visited:
                         visited[node] += 1
                     else:
                         visited[node] = 0
@@ -954,7 +954,7 @@ class word_graph:
                 node = token.lower() + self.sep + POS
                 
                 # Add the token to the terms list
-                if not terms.has_key(node):
+                if node not in terms:
                     terms[node] = [i]
                 else:
                     terms[node].append(i)
