@@ -164,16 +164,16 @@ class SimilarityTest(unittest.TestCase):
                     def __contains__(self, item):
                         return item in self.vocab
 
+                    def similarity(self, w1, w2):
+                        if w1 + '_' + w2 in self.sim:
+                            return self.sim[w1 + '_' + w2]
+                        else:
+                            return self.sim[w2 + '_' + w1]
+
                 wv = FakeWv()
 
                 def __init__(self):
                     pass
-
-                def similarity(self, w1, w2):
-                    if w1 + '_' + w2 in self.wv.sim:
-                        return self.wv.sim[w1 + '_' + w2]
-                    else:
-                        return self.wv.sim[w2 + '_' + w1]
 
             model = FakeModel()
             model.wv.vocab = ['right/JJ', 'wrong/JJ']

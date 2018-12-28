@@ -76,7 +76,7 @@ def w2v(s1, s2, wordmodel):
                 # compare same POS words
                 if t1.split('/')[1][:2] == t2.split('/')[1][:2]:
                     if t1 in wordmodel.wv and t2 in wordmodel.wv:
-                        sublist.append((i, wordmodel.similarity(t1, t2)))
+                        sublist.append((i, wordmodel.wv.similarity(t1, t2)))
                         hasitem = True
                     # if we don't know one of the words
                     # consider them as dissimilar
