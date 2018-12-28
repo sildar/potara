@@ -157,21 +157,27 @@ class SimilarityTest(unittest.TestCase):
         except Exception as e:
             # mock a similarity model
             class FakeModel():
-                vocab = []
-                sim = {}
+                class FakeWv():
+                    vocab = []
+                    sim = {}
+
+                    def __contains__(self, item):
+                        return item in self.vocab
+
+                wv = FakeWv()
 
                 def __init__(self):
                     pass
 
                 def similarity(self, w1, w2):
-                    if w1 + '_' + w2 in self.sim:
-                        return self.sim[w1 + '_' + w2]
+                    if w1 + '_' + w2 in self.wv.sim:
+                        return self.wv.sim[w1 + '_' + w2]
                     else:
-                        return self.sim[w2 + '_' + w1]
+                        return self.wv.sim[w2 + '_' + w1]
 
             model = FakeModel()
-            model.vocab = ['right/JJ', 'wrong/JJ']
-            model.sim = {'right/JJ_wrong/JJ': 0.5}
+            model.wv.vocab = ['right/JJ', 'wrong/JJ']
+            model.wv.sim = {'right/JJ_wrong/JJ': 0.5}
             esim = 0.9166
 
         s1 = "This/T beautiful/JJ sentence/NN is/V not/N right/JJ ./PUNCT"
