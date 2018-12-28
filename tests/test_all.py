@@ -156,7 +156,6 @@ class SimilarityTest(unittest.TestCase):
             esim = 0.9
         except Exception as e:
             # mock a similarity model
-            print(e)
             class FakeModel():
                 vocab = []
                 sim = {}
