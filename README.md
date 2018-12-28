@@ -5,20 +5,22 @@
 [![Requirements Status](https://requires.io/github/sildar/potara/requirements.svg?branch=master)](https://requires.io/github/sildar/potara/requirements/?branch=master)
 
 
-# Basics
+# What is this?
 
 Potara is a **multi-document** summarization system that relies on Integer
 Linear Programming (ILP) and sentence fusion.
 
 Its goal is to summarize a set of related documents in a few sentences.
-It proceeds by fusing similar sentences in order to create sentences
+It proceeds by **fusing similar** sentences in order to create sentences
 that are either shorter or more informative than those found in the
 documents.
-It then uses ILP in order to choose the best set of sentences, fused
-or not, that will compose the resulting summary.
+It then uses ILP in order to **choose the best set of sentences, fused
+or not**, that will compose the resulting summary.
 
 It relies on state-of-the-art (as of 2014) approaches introduced by Gillick and
 Favre for the ILP strategy, and Filippova for the sentence fusion.
+
+It is compatible and tested with Python 2.7, 3.4, 3.5 and 3.6.
 
 # Install
 
@@ -86,3 +88,12 @@ summarizer :
 
 Summarizing less than 4 documents would probably yield a bad
 summary.
+
+# Similarity models
+
+Potara relies on similarity scores between sentences. These scores
+can be shallow using a cosine similarity, or "deep" using gensim
+Word2Vec semantic representation of words.
+For the second use case, you'll want to train your own model or use
+pretrained models. You may contact me if you want to use potara that way,
+and I may create a tutorial on the matter for the occasion.
