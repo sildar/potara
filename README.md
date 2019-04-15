@@ -61,13 +61,13 @@ If you have issues with install, you can check the .travis.yml file of the repo,
 Basically, you can use the following
 
 ```
-from summarizer import Summarizer
-import document
+from potara.summarizer import Summarizer
+from potara.document import Document
 
 s = Summarizer()
 
 # Adding docs, preprocessing them and computing some infos for the summarizer
-s.setDocuments([document.Document('data/' + str(i) + '.txt')
+s.setDocuments([Document('data/' + str(i) + '.txt')
                 for i in range(1,10)])
        
 # Summarizing, where the actual work is done
