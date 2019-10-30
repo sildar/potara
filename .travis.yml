@@ -2,6 +2,7 @@ language: python
 dist: trusty
 group: stable
 os: linux
+
 python:
   - "2.7"
   - "3.4"
