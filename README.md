@@ -60,7 +60,7 @@ If you have issues with install, you can check the .travis.yml file of the repo,
 
 Basically, you can use the following
 
-```
+```python
 from potara.summarizer import Summarizer
 from potara.document import Document
 
