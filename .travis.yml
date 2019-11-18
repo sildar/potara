@@ -25,13 +25,6 @@ before_install:
 install:
   - pip install --upgrade pip
   - pip install -r requirements.txt
-  - pip uninstall -y nltk
-  - git clone https://github.com/sildar/nltk
-  - cd nltk/
-  - git checkout 3.4.5
-  - git pull origin 3.4.5
-  - sudo env "PATH=$PATH" python setup.py install
-  - cd ..
   - pip install pep8
   - pip list
   - python -c "import nltk; nltk.download('stopwords'); nltk.download('punkt')"
