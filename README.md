@@ -20,7 +20,7 @@ or not**, that will compose the resulting summary.
 It relies on state-of-the-art (as of 2014) approaches introduced by Gillick and
 Favre for the ILP strategy, and Filippova for the sentence fusion.
 
-It is compatible and tested with Python 2.7, 3.4, 3.5 and 3.6.
+It is compatible and tested with Python 3.5 and 3.6.
 
 # Install
 
