@@ -32,7 +32,7 @@ setup(
                 ],
     install_requires=['gensim==3.6.0',
                       'networkx==1.8.1',
-                      'nltk==3.4.5',
+                      'nltk==3.6.5',
                       'pulp',
                       'setuptools==40.6.3',
                       'python-coveralls==2.4.2',
