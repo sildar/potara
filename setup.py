@@ -34,7 +34,7 @@ setup(
                       'networkx==1.8.1',
                       'nltk==3.6.5',
                       'pulp',
-                      'setuptools==40.6.3',
+                      'setuptools==65.5.1',
                       'python-coveralls==2.4.2',
                       'six==1.12.0',
                       'requests>=2.21.0',
